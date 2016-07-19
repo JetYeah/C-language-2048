@@ -1,91 +1,93 @@
+///////////////By JetYeah///////////////////
+///////////////2016.07.19///////////////////
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <windows.h>
 #include <math.h>
-#define N 2//<=7ÓÃÓÚÉèÖÃNĞĞNÁĞµÄ±í¸ñ
-#define WINNUMBER 4//2^WINNUMBER»ñÊ¤µÄÄ¿±ê
-#define NEWNUMBERPER 1 //¶¨ÒåËæ»úÊı²úÉúµÄ¸öÊı
-int Array_2048[N][N];//¶¨Òå¶şÎ¬NĞĞNÁĞÊı×é
-char name [11] = {'\0'};//¶¨Òå´æ´¢Íæ¼ÒĞÕÃûµÄ×Ö·ûÊı×é
-long highest_score[11][2];//¶¨Òå¶şÎ¬Êı×éÓÃÓÚ´¢´æ×î¸ß·Ö
-char highest_name[11][11] = {"?","?","?","?","?","?","?","?","?","?","?"};//¶¨Òå¶şÎ¬Êı×éÓÃÓÚ´¢´æ¶ÔÓ¦µÃ·ÖµÄÍæ¼ÒĞÕÃû³õÖµÎª¡°£¿¡±
-int your_NO = 0;//µ±Ç°Íæ¼ÒÅÅÃû
-long score = 0;//¶¨Òåµ±Ç°µÃ·Ö
-long highest_number = 0;//¶¨Òå´ïµ½µÄ×î¸ßÊı×Ö
-int win_number = WINNUMBER;//ÓÃÓÚÊµÏÖ»ñÊ¤Ä¿±êµÄ¸Ä±ä
-void welcome_headline(void);//´òÓ¡»¶Ó­Óïº¯Êı
-void print_tips(void);//´òÓ¡ÌáÊ¾Ö¸Áîº¯Êı
-int read_line (char str[],int n);//¶ÁÈëÓÃ»§µÄĞÕÃûº¯Êı
-void ING(void);//ÖØÖÃËæ»úÊıº¯Êı
-void print_paint1(void);//¶¯Ì¬´òÓ¡2048Í¼°¸º¯Êı
-void print_paint2(void);//¾²Ì¬´òÓ¡2048Í¼°¸º¯Êı
-void line(int n);//´òÓ¡Êı±íº¯Êı
-void Prinft_Array_2048(void);//´òÓ¡Êı±íÄÚÈİº¯Êı
-int Make_new_number(int n);//Éú³ÉËæ»úÊıº¯Êı
-int read(void);//ÊäÈëÒÆ¶¯ÃüÁîº¯Êı
-int GO_up(void);//ÏòÉÏÅĞ¶Ïº¯Êı
-int GO_down(void);//ÏòÏÂÅĞ¶Ïº¯Êı
-int GO_left(void);//Ïò×óÅĞ¶Ïº¯Êı
-int GO_right(void);//ÏòÓÒÅĞ¶Ïº¯Êı
-int test_highest(void);//×î¸ß·ÖÅĞ¶Ïº¯Êı
-void Make_scoretable(void);//ÖÆ×÷µÃ·Ö°ñº¯Êı
-void prinft_scoretable(void);//´òÓ¡µÃ·Ö°ñº¯Êı
-int IS_died(void);//ÅĞ¶ÏÓÎÏ·ÊÇ·ñÖÕ½áº¯Êı
+#define N 2//<=7ç”¨äºè®¾ç½®Nè¡ŒNåˆ—çš„è¡¨æ ¼
+#define WINNUMBER 4//2^WINNUMBERè·èƒœçš„ç›®æ ‡
+#define NEWNUMBERPER 1 //å®šä¹‰éšæœºæ•°äº§ç”Ÿçš„ä¸ªæ•°
+int Array_2048[N][N];//å®šä¹‰äºŒç»´Nè¡ŒNåˆ—æ•°ç»„
+char name [11] = {'\0'};//å®šä¹‰å­˜å‚¨ç©å®¶å§“åçš„å­—ç¬¦æ•°ç»„
+long highest_score[11][2];//å®šä¹‰äºŒç»´æ•°ç»„ç”¨äºå‚¨å­˜æœ€é«˜åˆ†
+char highest_name[11][11] = {"?","?","?","?","?","?","?","?","?","?","?"};//å®šä¹‰äºŒç»´æ•°ç»„ç”¨äºå‚¨å­˜å¯¹åº”å¾—åˆ†çš„ç©å®¶å§“ååˆå€¼ä¸ºâ€œï¼Ÿâ€
+int your_NO = 0;//å½“å‰ç©å®¶æ’å
+long score = 0;//å®šä¹‰å½“å‰å¾—åˆ†
+long highest_number = 0;//å®šä¹‰è¾¾åˆ°çš„æœ€é«˜æ•°å­—
+int win_number = WINNUMBER;//ç”¨äºå®ç°è·èƒœç›®æ ‡çš„æ”¹å˜
+void welcome_headline(void);//æ‰“å°æ¬¢è¿è¯­å‡½æ•°
+void print_tips(void);//æ‰“å°æç¤ºæŒ‡ä»¤å‡½æ•°
+int read_line (char str[],int n);//è¯»å…¥ç”¨æˆ·çš„å§“åå‡½æ•°
+void ING(void);//é‡ç½®éšæœºæ•°å‡½æ•°
+void print_paint1(void);//åŠ¨æ€æ‰“å°2048å›¾æ¡ˆå‡½æ•°
+void print_paint2(void);//é™æ€æ‰“å°2048å›¾æ¡ˆå‡½æ•°
+void line(int n);//æ‰“å°æ•°è¡¨å‡½æ•°
+void Prinft_Array_2048(void);//æ‰“å°æ•°è¡¨å†…å®¹å‡½æ•°
+int Make_new_number(int n);//ç”Ÿæˆéšæœºæ•°å‡½æ•°
+int read(void);//è¾“å…¥ç§»åŠ¨å‘½ä»¤å‡½æ•°
+int GO_up(void);//å‘ä¸Šåˆ¤æ–­å‡½æ•°
+int GO_down(void);//å‘ä¸‹åˆ¤æ–­å‡½æ•°
+int GO_left(void);//å‘å·¦åˆ¤æ–­å‡½æ•°
+int GO_right(void);//å‘å³åˆ¤æ–­å‡½æ•°
+int test_highest(void);//æœ€é«˜åˆ†åˆ¤æ–­å‡½æ•°
+void Make_scoretable(void);//åˆ¶ä½œå¾—åˆ†æ¦œå‡½æ•°
+void prinft_scoretable(void);//æ‰“å°å¾—åˆ†æ¦œå‡½æ•°
+int IS_died(void);//åˆ¤æ–­æ¸¸æˆæ˜¯å¦ç»ˆç»“å‡½æ•°
 int main()
 {
-    char key;//»ñÈ¡ÊäÈëµÄ×Ö·û
-    char command = 0;//»ñÈ¡¿ØÖÆ×Ö·ûÅĞ¶ÏÊÇ·ñ¼ÌĞøÓÎÏ·
-    int Enter = 0;//¼Ä´æÊäÈëÃüÁîÉÏÏÂ×óÓÒ
-    int Keep_go = 1;//ÓÎÏ·¼ÌĞø½øĞĞ
-    long Highest_score = 0; //¼ÇÂ¼×î¸ßµÃ·Ö
-    int i = 0; //ÓÃÓÚÇåÁã
-    int a = 0; //ÓÃÓÚÇåÁã
-    int b = 0; //ÓÃÓÚÇåÁã
-    ING(); //ÖØÖÃËæ»úÊı
-    system("COLOR F0");//±³¾°ÑÕÉ«Îª°×£¬×ÖÌåÎªºÚ
-    welcome_headline();//´òÓ¡»¶Ó­Óï
-    system("cls");//¶Ô²»Ğè±£´æµÄ±äÁ¿½øĞĞÇåÁã
+    char key;//è·å–è¾“å…¥çš„å­—ç¬¦
+    char command = 0;//è·å–æ§åˆ¶å­—ç¬¦åˆ¤æ–­æ˜¯å¦ç»§ç»­æ¸¸æˆ
+    int Enter = 0;//å¯„å­˜è¾“å…¥å‘½ä»¤ä¸Šä¸‹å·¦å³
+    int Keep_go = 1;//æ¸¸æˆç»§ç»­è¿›è¡Œ
+    long Highest_score = 0; //è®°å½•æœ€é«˜å¾—åˆ†
+    int i = 0; //ç”¨äºæ¸…é›¶
+    int a = 0; //ç”¨äºæ¸…é›¶
+    int b = 0; //ç”¨äºæ¸…é›¶
+    ING(); //é‡ç½®éšæœºæ•°
+    system("COLOR F0");//èƒŒæ™¯é¢œè‰²ä¸ºç™½ï¼Œå­—ä½“ä¸ºé»‘
+    welcome_headline();//æ‰“å°æ¬¢è¿è¯­
+    system("cls");//å¯¹ä¸éœ€ä¿å­˜çš„å˜é‡è¿›è¡Œæ¸…é›¶
     do
     {
         {
-            system("cls"); //¶Ô²»Ğè±£´æµÄ±äÁ¿½øĞĞÇåÁã
-            score = your_NO = 0;//µÃ·ÖÇåÁã
-            Keep_go = 1;//ÓÎÏ·¼ÌĞø½øĞĞ
-            win_number = WINNUMBER;//ÓÃÓÚÊµÏÖ»ñÊ¤Ä¿±êµÄ¸Ä±ä
+            system("cls"); //å¯¹ä¸éœ€ä¿å­˜çš„å˜é‡è¿›è¡Œæ¸…é›¶
+            score = your_NO = 0;//å¾—åˆ†æ¸…é›¶
+            Keep_go = 1;//æ¸¸æˆç»§ç»­è¿›è¡Œ
+            win_number = WINNUMBER;//ç”¨äºå®ç°è·èƒœç›®æ ‡çš„æ”¹å˜
             for(i=0; i<11; i++)
-                name[i] = '\0';//´æ´¢Íæ¼ÒĞÕÃûµÄ×Ö·ûÊı×é³õÊ¼»¯
+                name[i] = '\0';//å­˜å‚¨ç©å®¶å§“åçš„å­—ç¬¦æ•°ç»„åˆå§‹åŒ–
             for(a = 0; a < N ; a++)
                 for(b = 0; b < N ; b++)
-                    Array_2048[a][b] = 0;//¶şÎ¬NĞĞNÁĞÊı×é³õÊ¼»¯
+                    Array_2048[a][b] = 0;//äºŒç»´Nè¡ŒNåˆ—æ•°ç»„åˆå§‹åŒ–
         }
-        system("COLOR F0");//±³¾°ÑÕÉ«Îª°×£¬×ÖÌåÎªºÚ
-        print_paint1();//´òÓ¡2048Í¼°¸
-        print_tips();//´òÓ¡ÌáÊ¾Ö¸Áî
-        read_line(name,10); //¶ÁÈëÓÃ»§µÄĞÕÃû
-        Make_new_number(NEWNUMBERPER); //Éú³ÉµÚÒ»¸öËæ»úÊı
-        do  //Õı³£ÓÎÏ·
+        system("COLOR F0");//èƒŒæ™¯é¢œè‰²ä¸ºç™½ï¼Œå­—ä½“ä¸ºé»‘
+        print_paint1();//æ‰“å°2048å›¾æ¡ˆ
+        print_tips();//æ‰“å°æç¤ºæŒ‡ä»¤
+        read_line(name,10); //è¯»å…¥ç”¨æˆ·çš„å§“å
+        Make_new_number(NEWNUMBERPER); //ç”Ÿæˆç¬¬ä¸€ä¸ªéšæœºæ•°
+        do  //æ­£å¸¸æ¸¸æˆ
         {
             {
-                system("cls");//¶Ô²»Ğè±£´æµÄ±äÁ¿½øĞĞÇåÁã
-                system("COLOR F0");//±³¾°ÑÕÉ«Îª°×£¬×ÖÌåÎªºÚ
-                print_paint2();//¾²Ì¬´òÓ¡2048Í¼°¸
-                printf( "\t\t\t\tHi, %3s!",name);//´òÓ¡Íæ¼ÒĞÕÃû
-                printf("\n\n\t\tWelcome to 2048! ");//´òÓ¡»¶Ó­Óï
-                printf("Your mission is to get the number %d!\n\n",(1<<win_number));//´òÓ¡»ñÊ¤Ä¿±ê
-                Prinft_Array_2048();//´òÓ¡Êı±íÄÚÈİ
+                system("cls");//å¯¹ä¸éœ€ä¿å­˜çš„å˜é‡è¿›è¡Œæ¸…é›¶
+                system("COLOR F0");//èƒŒæ™¯é¢œè‰²ä¸ºç™½ï¼Œå­—ä½“ä¸ºé»‘
+                print_paint2();//é™æ€æ‰“å°2048å›¾æ¡ˆ
+                printf( "\t\t\t\tHi, %3s!",name);//æ‰“å°ç©å®¶å§“å
+                printf("\n\n\t\tWelcome to 2048! ");//æ‰“å°æ¬¢è¿è¯­
+                printf("Your mission is to get the number %d!\n\n",(1<<win_number));//æ‰“å°è·èƒœç›®æ ‡
+                Prinft_Array_2048();//æ‰“å°æ•°è¡¨å†…å®¹
             }
             {
                 printf("Tips:m/M/5:display score rank\n\n");
                 printf("\t\ts/S/2:go down\t\ta/A/4:go left\n\n");
                 printf("\t\td/D/6:go right\t\tw/W/8:go up \n\n");
                 printf("The highest score: %6ld\tYour score: %2ld\n\n",Highest_score,score);
-                printf("Enter what your order:\n"); //´òÓ¡ÌáÊ¾Óï¡¢×î¸ß¼ÇÂ¼Óë·ÖÊı
+                printf("Enter what your order:\n"); //æ‰“å°æç¤ºè¯­ã€æœ€é«˜è®°å½•ä¸åˆ†æ•°
             }
-            Enter=read();//ÊäÈëÒÆ¶¯ÃüÁî
+            Enter=read();//è¾“å…¥ç§»åŠ¨å‘½ä»¤
             {
-                switch(Enter)//ÅĞ¶ÏÎ»ÒÆ·´Ïò£¬Î»ÒÆ£¬ÅĞ¶ÏÎ»ÒÆÊÇ·ñ³É¹¦£¨Ê§°ÜÒªÇóÖØÀ´£©
+                switch(Enter)//åˆ¤æ–­ä½ç§»åå‘ï¼Œä½ç§»ï¼Œåˆ¤æ–­ä½ç§»æ˜¯å¦æˆåŠŸï¼ˆå¤±è´¥è¦æ±‚é‡æ¥ï¼‰
                 {
                 case 2:
                     if(GO_down()!=1) continue;
@@ -100,7 +102,7 @@ int main()
                     if(GO_up()!=1) continue;
                     break;
                 case 5:
-                    prinft_scoretable();//´òÓ¡µÃ·Ö°ñ
+                    prinft_scoretable();//æ‰“å°å¾—åˆ†æ¦œ
                     printf("Press any key to keep going\n");
                     scanf("%c",&key);
                     continue;
@@ -110,36 +112,36 @@ int main()
                 }
             }
             if(score>=Highest_score)
-                Highest_score=score; //Ë¢ĞÂ×î¸ß·Ö
-            Make_scoretable(); //Ë¢ĞÂÅÅĞĞ°ñ
-            if((highest_number=test_highest())>=win_number) //ÊÇ·ñÓ®ÁË£¬Ñ¯ÎÊÊÇ·ñ¼ÌĞø
+                Highest_score=score; //åˆ·æ–°æœ€é«˜åˆ†
+            Make_scoretable(); //åˆ·æ–°æ’è¡Œæ¦œ
+            if((highest_number=test_highest())>=win_number) //æ˜¯å¦èµ¢äº†ï¼Œè¯¢é—®æ˜¯å¦ç»§ç»­
             {
-                win_number++;//»ñÊ¤Ä¿±ê·­±¶
-                Prinft_Array_2048();//´òÓ¡Êı±íÄÚÈİ
+                win_number++;//è·èƒœç›®æ ‡ç¿»å€
+                Prinft_Array_2048();//æ‰“å°æ•°è¡¨å†…å®¹
                 printf("Press any key to continue, enter n/N to end:");
                 do
                 {
                     scanf("%c",&command);
                 }
-                while(command=='\n');//ÊäÈën»òN½áÊøÓÎÏ·
+                while(command=='\n');//è¾“å…¥næˆ–Nç»“æŸæ¸¸æˆ
                 printf("\n");
                 if(command=='n'||command=='N')break;
             }
-            Keep_go = Make_new_number(NEWNUMBERPER); //Éú³ÉĞÂµÄËæ»úÊı£¬Í¬Ê±½«ÊÇ·ñÉú³É³É¹¦¼ÇÂ¼ÔÚKeep_goÖĞ
-            if(IS_died()) break; //ËÀ¾ÖÅĞ¶Ï£¬ÊÇËÀ¾Ö¾Í½áÊø³ÌĞò
+            Keep_go = Make_new_number(NEWNUMBERPER); //ç”Ÿæˆæ–°çš„éšæœºæ•°ï¼ŒåŒæ—¶å°†æ˜¯å¦ç”ŸæˆæˆåŠŸè®°å½•åœ¨Keep_goä¸­
+            if(IS_died()) break; //æ­»å±€åˆ¤æ–­ï¼Œæ˜¯æ­»å±€å°±ç»“æŸç¨‹åº
         }
-        while(Keep_go);  //Ê§°ÜÌø³ö
-        Make_scoretable(); //Ë¢ĞÂÅÅĞĞ°ñ
+        while(Keep_go);  //å¤±è´¥è·³å‡º
+        Make_scoretable(); //åˆ·æ–°æ’è¡Œæ¦œ
         {
-            //Game Over£¨ËÀ¾Ö¡¢¿ÕÎ»²»×ã£©ºóÏÔÊ¾×î¸ß·Ö£¬ÄãµÄ³É¼¨£¬½áÊøÊ±ÄãµÄÇé¿öÓë»ı·Ö±í
+            //Game Overï¼ˆæ­»å±€ã€ç©ºä½ä¸è¶³ï¼‰åæ˜¾ç¤ºæœ€é«˜åˆ†ï¼Œä½ çš„æˆç»©ï¼Œç»“æŸæ—¶ä½ çš„æƒ…å†µä¸ç§¯åˆ†è¡¨
             system("cls");
             system("COLOR F0");
-            print_paint1();//´òÓ¡2048Í¼°¸
+            print_paint1();//æ‰“å°2048å›¾æ¡ˆ
             printf("The highest score: %6ld\n",Highest_score);
             printf("Your score: %2ld\n",score);
-            Prinft_Array_2048();//´òÓ¡Êı±íÄÚÈİ
+            Prinft_Array_2048();//æ‰“å°æ•°è¡¨å†…å®¹
             printf("\t\t\tGame over!\n\n");
-            prinft_scoretable();//´òÓ¡µÃ·Ö°ñ
+            prinft_scoretable();//æ‰“å°å¾—åˆ†æ¦œ
             printf("Play again? Press any key to end, enter y/Y to continue:");
         }
         do
@@ -149,18 +151,18 @@ int main()
         while(command=='\n');
         printf("\n");
     }
-    while(command=='y'||command=='Y');  //ÊÇ·ñÖØÀ´
+    while(command=='y'||command=='Y');  //æ˜¯å¦é‡æ¥
     return 0;
 }
 
-void ING(void) //ÖØÖÃËæ»úÊı£¨ÉèÖÃÖÖ×Ó£©
+void ING(void) //é‡ç½®éšæœºæ•°ï¼ˆè®¾ç½®ç§å­ï¼‰
 {
     srand((unsigned) time(NULL));
 }
 
-void welcome_headline(void)//»¶Ó­ÁĞ±íµÄÄ£Äâ¶¯Ì¬´òÓ¡
+void welcome_headline(void)//æ¬¢è¿åˆ—è¡¨çš„æ¨¡æ‹ŸåŠ¨æ€æ‰“å°
 {
-    char headline0[]="ÓÎÏ·¿ªÊ¼Ç°½¨Òé×î´ó»¯´°¿Ú£¬Ğ§¹û¸ü¼Ñ£¡^.^²Ù×÷Íê±ÏÇë°´»Ø³µ";
+    char headline0[]="æ¸¸æˆå¼€å§‹å‰å»ºè®®æœ€å¤§åŒ–çª—å£ï¼Œæ•ˆæœæ›´ä½³ï¼^.^æ“ä½œå®Œæ¯•è¯·æŒ‰å›è½¦";
     char headline1[]="LOADING\0";
     char headline2[]="......\0";
     printf("\n\n\n\n\n\n\t");
@@ -172,7 +174,7 @@ void welcome_headline(void)//»¶Ó­ÁĞ±íµÄÄ£Äâ¶¯Ì¬´òÓ¡
     getchar();
     system("cls");
     printf("\n\n\n\n\n\n\t\t\t\t");
-    printf("ÓÎÏ·×°ÔØÖĞ£¬ÇëÉÔºò\n");
+    printf("æ¸¸æˆè£…è½½ä¸­ï¼Œè¯·ç¨å€™\n");
     Sleep(1500);
     system("cls");
     printf("\n\n\n\n\n\n\t\t\t\t");
@@ -195,7 +197,7 @@ void welcome_headline(void)//»¶Ó­ÁĞ±íµÄÄ£Äâ¶¯Ì¬´òÓ¡
     Sleep(1000);
 }
 
-void print_tips(void)//´òÓ¡ÌáÊ¾Ö¸Áî
+void print_tips(void)//æ‰“å°æç¤ºæŒ‡ä»¤
 {
     char tip1[]="Welcome to 2048! Your mission is to get the number\0";
     char tip2[]="Please enter your name(<= 10 letters):\0";
@@ -213,7 +215,7 @@ void print_tips(void)//´òÓ¡ÌáÊ¾Ö¸Áî
     printf("\n\n");
 }
 
-int read_line (char str[],int n)//¶ÁÈëÓÃ»§µÄĞÕÃû
+int read_line (char str[],int n)//è¯»å…¥ç”¨æˆ·çš„å§“å
 {
     int ch , i = 0;
     while((ch = getchar())==' '||ch=='\n'||ch=='\0');
@@ -228,7 +230,7 @@ int read_line (char str[],int n)//¶ÁÈëÓÃ»§µÄĞÕÃû
     return i;
 }
 
-void print_paint1(void)//¶¯Ì¬´òÓ¡2048Í¼°¸
+void print_paint1(void)//åŠ¨æ€æ‰“å°2048å›¾æ¡ˆ
 {
     printf("********************************************************************************");
     Sleep(50);
@@ -265,7 +267,7 @@ void print_paint1(void)//¶¯Ì¬´òÓ¡2048Í¼°¸
     printf("\n\n");
 }
 
-void print_paint2(void)//¾²Ì¬´òÓ¡2048Í¼°¸
+void print_paint2(void)//é™æ€æ‰“å°2048å›¾æ¡ˆ
 {
     printf("################################################################################");
     printf("################################################################################");
@@ -286,9 +288,9 @@ void print_paint2(void)//¾²Ì¬´òÓ¡2048Í¼°¸
     printf("\n\n");
 }
 
-int Make_new_number(int n)//Éú³ÉËæ»úÊı
+int Make_new_number(int n)//ç”Ÿæˆéšæœºæ•°
 {
-    for(int L = 0; L < n ; L++)//±£Ö¤Éú³ÉNEWNUMBERPER ¸öËæ»úÊı
+    for(int L = 0; L < n ; L++)//ä¿è¯ç”ŸæˆNEWNUMBERPER ä¸ªéšæœºæ•°
     {
         int a = 0;
         int b = 0;
@@ -297,11 +299,11 @@ int Make_new_number(int n)//Éú³ÉËæ»úÊı
         int temp = 0;
         for(a = 0; a < N ; a++)
             for(b = 0; b < N ; b++)
-                empty_place += !(Array_2048[a][b]);//ÀúÀÀÊı×éÅĞ¶Ï¿ÕÎ»Êı
-        if(empty_place == 0) return 0;//Èô¿ÕÎ»ÎªÁãÔò·µ»Ø0
-        temp = rand()%empty_place+1;//Éú³É1~empty_place·¶Î§ÄÚµÄËæ»úÊı
+                empty_place += !(Array_2048[a][b]);//å†è§ˆæ•°ç»„åˆ¤æ–­ç©ºä½æ•°
+        if(empty_place == 0) return 0;//è‹¥ç©ºä½ä¸ºé›¶åˆ™è¿”å›0
+        temp = rand()%empty_place+1;//ç”Ÿæˆ1~empty_placeèŒƒå›´å†…çš„éšæœºæ•°
         a = b = i = 0;
-        while(1)//Ëæ»úÔÚËùÓĞ¿ÕÎ»ÖĞÑ¡ÔñÒ»¸öÌí¼Ó2»ò4
+        while(1)//éšæœºåœ¨æ‰€æœ‰ç©ºä½ä¸­é€‰æ‹©ä¸€ä¸ªæ·»åŠ 2æˆ–4
         {
             i += !(Array_2048[a][b]);
             if(i>=temp) break;
@@ -312,14 +314,14 @@ int Make_new_number(int n)//Éú³ÉËæ»úÊı
                 b=0;
             }
         }
-        Array_2048[a][b] = 2 << ((rand()%4)/3);//2Ëæ»ú×óÒÆ0»ò1Éú³É2»ò4
+        Array_2048[a][b] = 2 << ((rand()%4)/3);//2éšæœºå·¦ç§»0æˆ–1ç”Ÿæˆ2æˆ–4
     }
     return 1;
 }
 
-void line(int n)//´òÓ¡Êı±í
+void line(int n)//æ‰“å°æ•°è¡¨
 {
-    for (int i = 0; i < abs(5-N); ++i)//±£Ö¤±í¸ñ±£³Ö¾ÓÖĞ
+    for (int i = 0; i < abs(5-N); ++i)//ä¿è¯è¡¨æ ¼ä¿æŒå±…ä¸­
         printf("\t");
     for (int i = 0; i < N; ++i)
     {
@@ -329,12 +331,12 @@ void line(int n)//´òÓ¡Êı±í
     printf("\n");
 }
 
-void Prinft_Array_2048(void)//´òÓ¡Êı±íÄÚÈİ
+void Prinft_Array_2048(void)//æ‰“å°æ•°è¡¨å†…å®¹
 {
     for (int i = 0; i < N; ++i)
     {
         line(N);
-        for (int k = 0; k <abs(5-N); ++k)//±£Ö¤±í¸ñ±£³Ö¾ÓÖĞ
+        for (int k = 0; k <abs(5-N); ++k)//ä¿è¯è¡¨æ ¼ä¿æŒå±…ä¸­
             printf("\t");
         for (int j = 0; j < N; ++j)
         {
@@ -354,7 +356,7 @@ void Prinft_Array_2048(void)//´òÓ¡Êı±íÄÚÈİ
     printf("\n\n");
 }
 
-int read(void)//ÊäÈëÒÆ¶¯ÃüÁî
+int read(void)//è¾“å…¥ç§»åŠ¨å‘½ä»¤
 {
     char a = 0;
     char b = 0;
@@ -378,7 +380,7 @@ int read(void)//ÊäÈëÒÆ¶¯ÃüÁî
     }
 }
 
-int GO_down(void)//ÏòÏÂÅĞ¶Ï
+int GO_down(void)//å‘ä¸‹åˆ¤æ–­
 {
     int a = 0;
     int b = 0;
@@ -419,7 +421,7 @@ int GO_down(void)//ÏòÏÂÅĞ¶Ï
     return L;
 }
 
-int GO_up(void)//ÏòÉÏÅĞ¶Ï
+int GO_up(void)//å‘ä¸Šåˆ¤æ–­
 {
     int a = 0;
     int b = 0;
@@ -460,7 +462,7 @@ int GO_up(void)//ÏòÉÏÅĞ¶Ï
     return L;
 }
 
-int GO_left(void)//Ïò×óÅĞ¶Ï
+int GO_left(void)//å‘å·¦åˆ¤æ–­
 {
     int a = 0;
     int b = 0;
@@ -501,7 +503,7 @@ int GO_left(void)//Ïò×óÅĞ¶Ï
     return L;
 }
 
-int GO_right(void)//ÏòÓÒÅĞ¶Ï
+int GO_right(void)//å‘å³åˆ¤æ–­
 {
     int a = 0;
     int b = 0;
@@ -542,7 +544,7 @@ int GO_right(void)//ÏòÓÒÅĞ¶Ï
     return L;
 }
 
-int test_highest(void)//×î¸ß·ÖÅĞ¶Ï
+int test_highest(void)//æœ€é«˜åˆ†åˆ¤æ–­
 {
     int a = 0;
     int b = 0;
@@ -551,14 +553,14 @@ int test_highest(void)//×î¸ß·ÖÅĞ¶Ï
     for(a = 0; a < N ; a++)
     {
         for(b = 0; b < N ; b++)
-            if((Array_2048[a][b])>=highest) highest=Array_2048[a][b];//ÀúÀÀÊı×éÈ·¶¨×î´óÊı×é
+            if((Array_2048[a][b])>=highest) highest=Array_2048[a][b];//å†è§ˆæ•°ç»„ç¡®å®šæœ€å¤§æ•°ç»„
     }
     for(i=0; highest>1; i++)
-        highest=highest>>1;//ÅĞ¶ÏÎ»Êı£¬ÓëWINNUMBER±È½Ï
+        highest=highest>>1;//åˆ¤æ–­ä½æ•°ï¼Œä¸WINNUMBERæ¯”è¾ƒ
     return i;
 }
 
-void Make_scoretable(void)//ÖÆ×÷µÃ·Ö°ñ
+void Make_scoretable(void)//åˆ¶ä½œå¾—åˆ†æ¦œ
 {
     int i = 0;
     long I = 0;
@@ -572,16 +574,16 @@ void Make_scoretable(void)//ÖÆ×÷µÃ·Ö°ñ
         if((highest_score[your_NO][1]>highest_score[(your_NO+1)][1])&&
                 (highest_score[your_NO][0]>=highest_score[(your_NO+1)][0]))
         {
-            //Èç¹ûµ±Ç°Íæ¼ÒµÃ·Ö¸ßÓÚÇ°Íæ¼ÒµÃ·ÖÔò½»»»¶şÕßÅÅÃû
+            //å¦‚æœå½“å‰ç©å®¶å¾—åˆ†é«˜äºå‰ç©å®¶å¾—åˆ†åˆ™äº¤æ¢äºŒè€…æ’å
             I = highest_score[(your_NO+1)][1];
             highest_score[(your_NO+1)][1] = highest_score[your_NO][1];
-            highest_score[your_NO][1] = I;//½»»»highest_number
+            highest_score[your_NO][1] = I;//äº¤æ¢highest_number
             I = highest_score[(your_NO+1)][0];
             highest_score[(your_NO+1)][0] = highest_score[your_NO][0];
-            highest_score[your_NO][0] = I;//½»»»score
+            highest_score[your_NO][0] = I;//äº¤æ¢score
             strcpy(L,highest_name[your_NO+1]);
             strcpy(highest_name[your_NO+1],highest_name[your_NO]);
-            strcpy(highest_name[your_NO],L);//½»»»Ãû×Ö
+            strcpy(highest_name[your_NO],L);//äº¤æ¢åå­—
             your_NO++;
         }
         else if((highest_score[your_NO][1]==highest_score[(your_NO+1)][1])&&
@@ -589,13 +591,13 @@ void Make_scoretable(void)//ÖÆ×÷µÃ·Ö°ñ
         {
             I = highest_score[(your_NO+1)][1];
             highest_score[(your_NO+1)][1] = highest_score[your_NO][1];
-            highest_score[your_NO][1] = I;//½»»»highest_number
+            highest_score[your_NO][1] = I;//äº¤æ¢highest_number
             I = highest_score[(your_NO+1)][0];
             highest_score[(your_NO+1)][0] = highest_score[your_NO][0];
-            highest_score[your_NO][0] = I;//½»»»score
+            highest_score[your_NO][0] = I;//äº¤æ¢score
             strcpy(L,highest_name[your_NO+1]);
             strcpy(highest_name[your_NO+1],highest_name[your_NO]);
-            strcpy(highest_name[your_NO],L);//½»»»Ãû×Ö
+            strcpy(highest_name[your_NO],L);//äº¤æ¢åå­—
             your_NO++;
         }
         else
@@ -603,7 +605,7 @@ void Make_scoretable(void)//ÖÆ×÷µÃ·Ö°ñ
     }
 }
 
-void prinft_scoretable(void)//´òÓ¡µÃ·Ö°ñ
+void prinft_scoretable(void)//æ‰“å°å¾—åˆ†æ¦œ
 {
     int i = 0;
     char L [11]= {'\0'};
@@ -619,7 +621,7 @@ void prinft_scoretable(void)//´òÓ¡µÃ·Ö°ñ
     }
 }
 
-int IS_died(void)//ËÀ¾ÖÅĞ¶Ï£¬ÊÇËÀ¾Ö¾Í½áÊø³ÌĞò
+int IS_died(void)//æ­»å±€åˆ¤æ–­ï¼Œæ˜¯æ­»å±€å°±ç»“æŸç¨‹åº
 {
     int a = 0;
     int b = 0;
@@ -662,7 +664,7 @@ int IS_died(void)//ËÀ¾ÖÅĞ¶Ï£¬ÊÇËÀ¾Ö¾Í½áÊø³ÌĞò
             }
         }
     }
-    return 1;//ÅĞ¶Ï¸÷ĞĞ¸÷ÁĞÊÇ·ñÓĞÄÜ¹»Ïà¼ÓµÄÊı×ÖÈôÎŞÔò·µ»ØÕæ
+    return 1;//åˆ¤æ–­å„è¡Œå„åˆ—æ˜¯å¦æœ‰èƒ½å¤Ÿç›¸åŠ çš„æ•°å­—è‹¥æ— åˆ™è¿”å›çœŸ
 }
 
 
